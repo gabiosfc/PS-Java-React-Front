@@ -38,6 +38,8 @@ class App extends Component {
 
   render() {
     const { transferencias } = this.state;
+    
+    const valorTotal = transferencias.reduce((total, transf) => total + transf.valor, 0);
 
     const transferenciaList = transferencias.map(transferencia => {
       return <tr key={transferencia.id}>
@@ -65,7 +67,7 @@ class App extends Component {
               <thead>
                 <tr>
                   <th width="20%">Saldo Total: </th>
-                  <td>{1000}</td>
+                  <td>{valorTotal}</td>
                   <th width="20%">Saldo no Período: </th>
                   <td>{110}</td>
                 </tr>
