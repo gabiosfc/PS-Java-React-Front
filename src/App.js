@@ -34,21 +34,21 @@ class App extends Component {
     this.setState({ transferencias: body });
   }
 
-  
+
 
   render() {
     const { transferencias } = this.state;
 
     const transferenciaList = transferencias.map(transferencia => {
       return <tr key={transferencia.id}>
-          <td style={{whiteSpace: 'nowrap'}}>{transferencia.id}</td>
-          <td>{transferencia.dataTransferencia}</td>
-          <td>{transferencia.valor}</td>
-          <td>{transferencia.tipo}</td>
-          <td>{transferencia.nomeOperadorTransacao}</td>
-          <td>{transferencia.contaId}</td>
+        <td style={{ whiteSpace: 'nowrap' }}>{transferencia.id}</td>
+        <td>{transferencia.dataTransferencia}</td>
+        <td>{transferencia.valor}</td>
+        <td>{transferencia.tipo}</td>
+        <td>{transferencia.nomeOperadorTransacao}</td>
+        <td>{transferencia.contaId}</td>
       </tr>
-  });
+    });
 
     return (
       <div className="App">
@@ -60,13 +60,18 @@ class App extends Component {
 
           <div className="App-intro">
             <h2>Transferências</h2>
-            <Table className="mt-4">
+
+            <Table className="saldos">
               <thead>
                 <tr>
-                <th width="40%">Saldo Total: </th>
-                <th width="40%">Saldo no Período: </th>
+                  <th width="20%">Saldo Total: </th>
+                  <td>{1000}</td>
+                  <th width="20%">Saldo no Período: </th>
+                  <td>{110}</td>
                 </tr>
               </thead>
+            </Table>
+            <Table className="mt-4">
               <thead>
                 <tr>
                   <th width="40%">ID</th>
