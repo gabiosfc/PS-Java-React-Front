@@ -1,4 +1,4 @@
-/*import './CampoData.css'
+import './CampoData.css'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from "react";
@@ -13,13 +13,10 @@ const CampoData = (props) => {
                 selected={startDate}
                 onChange={date => setStartDate(date)}
             />
-        </div>
-
-        
+        </div>        
     )
-
 }
 
-export default CampoData*/
+export default CampoData
 
 
