@@ -3,11 +3,13 @@
     border-radius: 8px;
     font-weight: 700;
     font-size: 20px;
-    padding: 32px;
+    padding: 16px;
     border: none;
     cursor: pointer;
     color: #FFF;
-    margin: 16px 0;
-    text-align: center
+    margin: 10px 0;
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
 }
 

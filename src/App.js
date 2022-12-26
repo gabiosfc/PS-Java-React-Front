@@ -2,7 +2,6 @@ import './App.css';
 import Formulario from './componentes/Formulario';
 import React, { Component, logo, useState, setUpdated, state, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
 import { Button, Container, Table } from 'reactstrap';
 import './componentes/Botao/Botao.css'
 import DatePicker from 'react-datepicker';
@@ -35,18 +34,18 @@ const App = () => {
     setDataFim(event.target.value);
   };
 
-  function convertDatePickerToString(dataInicio){
+  function convertDatePickerToString(dataInicio) {
     var dataConvertida = '';
 
     dataConvertida += dataInicio.getFullYear() + '-';
 
-    if ((dataInicio.getMonth()+1) < 10){
-      dataConvertida += '0' 
+    if ((dataInicio.getMonth() + 1) < 10) {
+      dataConvertida += '0'
     }
 
-    dataConvertida += (dataInicio.getMonth()+1) + '-'; 
+    dataConvertida += (dataInicio.getMonth() + 1) + '-';
 
-    if (dataInicio.getDate() < 10){
+    if (dataInicio.getDate() < 10) {
       dataConvertida += '0';
     }
 
@@ -56,45 +55,55 @@ const App = () => {
 
   }
 
+  function fillFilters(contaId, nomeOperador, dataInicio, dataFim) {
+    var filters = '';
+    if (contaId && contaId != '') {
+      filters += 'contaId=' + contaId;
+    }
+    if (nomeOperador) {
+      if (filters != '') {
+        filters += '&';
+      }
+      filters += 'nomeOperador=' + nomeOperador;
+    }
+    if (dataInicio) {
+      if (filters != '') {
+        filters += '&';
+      }
+      filters += 'dataInicio=' + convertDatePickerToString(dataInicio);
+    }
+    if (dataFim) {
+      if (filters != '') {
+        filters += '&';
+      }
+      filters += 'dataFim=' + convertDatePickerToString(dataFim);
+    }
+    return filters;
+  }
+
+  function fillUrl(filters) {
+    var url = '';
+
+    if (filters != '') {
+      url = '/findTransferenciaByFilters?' + filters;
+    } else {
+      url = '/findAll';
+    }
+
+    return url;
+  }
 
   const handleClick = async () => {
 
     setIsLoading(true);
     try {
 
-      var filters = '';
-      if (contaId){
-        filters += 'contaId=' + contaId;
-      }
-      if (nomeOperador){
-        if (filters != ''){
-          filters += '&';
-        }
-        filters += 'nomeOperador=' + nomeOperador;
-      }
-      if (dataInicio){
-        if (filters != ''){
-          filters += '&';
-        }
-        filters += 'dataInicio=' + convertDatePickerToString(dataInicio);
-      }
-      if (dataFim){
-        if (filters != ''){
-          filters += '&';
-        }
-        filters += 'dataFim=' + convertDatePickerToString(dataFim);
-      }
+      var filters = fillFilters(contaId, nomeOperador, dataInicio, dataFim);
 
-      var url = '';
-
-      if(filters != ''){
-        url = '/findTransferenciaByFilters?' + filters;
-      } else {
-        url = '/findAll';
-      }
+      var url = fillUrl(filters);
 
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
@@ -142,61 +151,66 @@ const App = () => {
               <label>Data Fim</label>
               <DatePicker selected={dataFim} id="dataFim" name="dataFim" format='yyyy-MM-dd' onChange={date => setDataFim(date)} />
             </div>
+          </form>
+        </section>
+        <div className="Form">
+          <section className="formulario">
             <button onClick={handleClick} className='botao' >
               Pesquisar
             </button>
-          </form>
-        </section>
-        
+          </section>
+        </div>
       </div>
-      
+
 
       {isLoading && <h2>Loading...</h2>}
 
       {data && (
-        <div>
+        <section className="formulario">
+          <div>
 
-          <h2>Transferências</h2>
+            <h2>Transferências</h2>
 
-          <Table className="saldos">
-            <thead>
-              <tr>
-                <th width="20%">Saldo Total: </th>
-                <td>{valorTotalFixed}</td>
-                <th width="20%">Saldo no Período: </th>
-                <td>{valorTotalFixed}</td>
-              </tr>
-            </thead>
-          </Table>
-          <Table className="mt-4">
-            <thead>
-              <tr>
-                <th width="8%">ID</th>
-                <th width="8%">Data</th>
-                <th width="8%">Valor</th>
-                <th width="8%">Tipo</th>
-                <th width="8%">Nome Operador</th>
-                <th width="8%">Conta ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map(item => {
-                return (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.dataTransferencia}</td>
-                    <td>{item.valor}</td>
-                    <td>{item.tipo}</td>
-                    <td>{item.nomeOperadorTransacao}</td>
-                    <td>{item.contaId}</td>
+            <Table className="saldos">
+              <thead>
+                <tr>
+                  <th width="20%">Saldo Total: </th>
+                  <td>{valorTotalFixed}</td>
+                  <th width="20%">Saldo no Período: </th>
+                  <td>{valorTotalFixed}</td>
+                </tr>
+              </thead>
+            </Table>
+            <Table className="mt-4">
+              <thead>
+                <tr>
+                  <th width="20%">ID</th>
+                  <th width="20%">Data</th>
+                  <th width="20%">Valor</th>
+                  <th width="20%">Tipo</th>
+                  <th width="20%">Nome Operador</th>
+                  <th width="20%">Conta ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map(item => {
+                  return (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.dataTransferencia}</td>
+                      <td>{item.valor}</td>
+                      <td>{item.tipo}</td>
+                      <td>{item.nomeOperadorTransacao}</td>
+                      <td>{item.contaId}</td>
 
-                  </tr>
-                );
-              })}
-            </tbody>
+                    </tr>
+                  );
+                })}
+              </tbody>
 
-          </Table>
-        </div>
+            </Table>
+          </div>
+        </section>
       )}
     </div>
   );
