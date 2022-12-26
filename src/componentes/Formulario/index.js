@@ -12,7 +12,7 @@ const Formulario = () => {
         <section className="formulario">
             <form>
                 <h2>Preencha os dados abaixo para consulta:</h2>
-                <CampoTexto label="ID Conta" placeholder="Digite o ID da Conta" />
+                <CampoTexto label="ID Conta" name="contaId" placeholder="Digite o ID da Conta" />
                 <CampoTexto label="Nome do Operador Transacionado" placeholder="Digite o nome do operador" />
                 <CampoData label="Data Início" onChange={(newValue) => setValue(newValue)} />
                 <CampoData label="Data Fim" onChange={(newValue) => setValue(newValue)} />
